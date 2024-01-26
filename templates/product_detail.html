@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ product.name }} - Apex eGlobal Solutions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='product_style.css') }}">
+
+</head>
+
+<body>
+
+    <header>
+        <h1>Apex eGlobal Solutions</h1>
+    </header>
+
+    <section class="product-details-container">
+        <div class="product">
+            <div class="product-details">
+                <h2>{{ product['name'] }}</h2>
+                <p>{{ product['description'] }}</p>
+                <p class="price">{{ product['price'] }}</p>
+                <input type="hidden" id="product_name" value="{{ product['name'] }}">
+                <a href="#" class="btn" onclick="showContactForm('{{ product['name']|replace("'", "\\'") }}')">Contact</a>
+            </div>
+            <div class="screenshots-container">
+                {% for screenshot in product['screenshots'] %}
+                    <img src="{{ url_for('static', filename='screen/' + screenshot) }}" alt="{{ product['name'] }} Screenshot">
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Apex eGlobal Solutions. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function showContactForm(productName) {
+            if (confirm("Are you sure you want to contact us regarding " + productName + "?")) {
+                var contact_url = "{{ url_for('contact') }}";
+                contact_url += "?product_name=" + encodeURIComponent(productName);
+                window.location.href = contact_url;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
